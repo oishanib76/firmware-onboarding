@@ -5,22 +5,21 @@
 #include <BMEConstants.h>
 #include <BMEI2CInterface.h>
 
-BMEI2CInterfaceInstance::create();
-
-
-bool bme280I2CSetup()
+bool BMEI2CInterface::bme280I2CSetup()
 {
     Wire.begin();
 
-    if (!bme.begin(0x76))
+    if (!bme.begin(BMEConstants::BME_I2C_ADDRESS))
     {
         Serial.println("Could not find BME280!");
         return false;
     }
+
+    Serial.println("BME280 found!");
     return true;
 }
 
-float readTemperatureI2C()
+float BMEI2CInterface::readTemperatureI2C()
 {
     return bme.readTemperature();
 }

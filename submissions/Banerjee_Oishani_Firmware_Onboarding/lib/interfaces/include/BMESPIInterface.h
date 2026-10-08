@@ -1,7 +1,19 @@
-#ifndef BMESPIInterface_H
-#define BMESPIInterface_H
+#pragma once
 
-void bme280SPISetup();
-float readTemperatureSPI();
+#include <Adafruit_BME280.h>
+#include <etl/singleton.h>
+#include <BMEConstants.h>
 
-#endif
+class BMESPIInterface
+{
+public:
+    BMESPIInterface();
+
+    bool bme280SPISetup();
+    float readTemperatureSPI();
+
+private:
+    Adafruit_BME280 bme;
+};
+
+using BMESPIInterfaceInstance = etl::singleton<BMESPIInterface>;

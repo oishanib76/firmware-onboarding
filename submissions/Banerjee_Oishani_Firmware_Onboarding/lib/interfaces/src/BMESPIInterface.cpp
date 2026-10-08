@@ -5,18 +5,26 @@
 #include <BMEConstants.h>
 #include <BMESPIInterface.h>
 
-static Adafruit_BME280 bme;
-
-void bme280SPISetup()
+BMESPIInterface::BMESPIInterface()
+    : bme(10)
 {
-    if (!bme.begin(BME_SPI_CS_PIN))
-    {
-        Serial.println("Could not find BME280!");
-        while (1);
-    }
 }
 
-float readTemperatureSPI()
+bool BMESPIInterface::bme280SPISetup()
+{
+    SPI.begin();
+
+    if (!bme.begin())
+    {
+        Serial.println("Could not find BME280 using SPI!");
+        return false;
+    }
+
+    Serial.println("BME280 found!");
+    return true;
+}
+
+float BMESPIInterface::readTemperatureSPI()
 {
     return bme.readTemperature();
 }
