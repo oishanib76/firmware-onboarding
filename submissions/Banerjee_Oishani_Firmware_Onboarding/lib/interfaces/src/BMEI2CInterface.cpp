@@ -5,17 +5,19 @@
 #include <BMEConstants.h>
 #include <BMEI2CInterface.h>
 
-static Adafruit_BME280 bme;
+BMEI2CInterfaceInstance::create();
 
-void bme280I2CSetup()
+
+bool bme280I2CSetup()
 {
     Wire.begin();
 
-    if (!bme.begin(BME_I2C_ADDRESS))
+    if (!bme.begin(0x76))
     {
         Serial.println("Could not find BME280!");
-        while (1);
+        return false;
     }
+    return true;
 }
 
 float readTemperatureI2C()

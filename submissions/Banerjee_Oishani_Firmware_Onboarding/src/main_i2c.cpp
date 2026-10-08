@@ -2,7 +2,11 @@
 
 #include <BMEConstants.h>
 #include <BMEI2CInterface.h>
+#include <BMEI2CInterface.cpp>
 #include <LEDController.h>
+#include <LEDController.cpp>
+
+#define ERROR_LED LED_BUILTIN
 
 int temperatureToDelay(float temperature)
 {
@@ -29,8 +33,20 @@ void setup()
 {
     Serial.begin(9600);
 
-    ledSetup();
     bme280I2CSetup();
+    ledSetup();
+
+    if (!bme280I2CSetup())
+    {
+        Serial.println("BME280 setup failed!");
+        while (true) {
+            digitalWrite(ERROR_LED, HIGH);
+            delay(100);
+            digitalWrite(ERROR_LED, LOW);
+            delay(100);
+        }
+    }
+
 }
 
 void loop()

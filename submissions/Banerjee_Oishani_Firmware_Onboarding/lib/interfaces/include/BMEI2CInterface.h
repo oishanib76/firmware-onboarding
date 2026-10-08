@@ -1,8 +1,23 @@
-#ifndef BMEI2CInterface_H
-#define BMEI2CInterface_H
+#pragma once
+#include <Adafruit_BME280.h>
+#include <etl/singleton.h>
+#include "BMEConstants.h"
 
-void bme280I2CSetup();
-float readTemperatureI2C();
+class BMEI2CInterface
+{
+public:
 
-#endif
+    BMEI2CInterface() = default;
 
+    bool bme280I2CSetup();
+    float readTemperatureI2C();
+
+    
+    static Adafruit_BME280 bme;
+
+private:
+
+   // Code here!
+
+};
+using BMEI2CInterfaceInstance = etl::singleton<BMEI2CInterface>;
